@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/javascript">
+function openWin(strid){
+   document.getElementById("teachid").value=strid;
+   document.getElementById("form").submit();
+}
+</script>
+<div id="win" style="display:none;">
+	<form method="post" id="form" action="">
+		<input type="text" class="form-control" name="teachid" id="teachid" value="">
+	</form>
+</div>
+
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/info">个人信息</a></li>
+			<li><a href="/changepw">修改密码</a></li>
+			{% for item in baritems %}
+			{% if item == '查看成绩' %}
+			<li class="active"><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% else %}
+			<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endif %}
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+        <p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+    </div>
+	</div>
+</nav>
+<table class="table table-hover table-bordered table-striped" style="text-align:center">
+	<thead>
+		<tr><th style="text-align:center">课程名称</th><th style="text-align:center">学分</th><th style="text-align:center">平时成绩</th><th style="text-align:center">半期成绩</th><th style="text-align:center">期末成绩</th><th style="text-align:center">总成绩</th></tr>
+	</thead>
+	<tbody>
+	{% for grade in grades %}
+		<tr><td>{{ grade[0] }}</td><td>{{ grade[1] }}</td><td>{{ grade[2] }}</td><td>{{ grade[3] }}</td><td>{{ grade[4] }}</td><td>{{ grade[5] }}</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<br/>
+
+{% endblock %}

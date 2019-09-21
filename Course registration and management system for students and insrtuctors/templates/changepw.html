@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/javascript">
+function checkpw(str)
+{
+	var regNumber = /\d+/;
+	var regString1 = /[a-z]+/; 
+	var regString2 = /[A-Z]+/;
+	if(regNumber.test(str) && regString1.test(str) && regString2.test(str) && str.length>=8)
+	{
+		return 1;
+	}
+	return 0; 
+}
+function check()
+{
+	var oldpw = document.getElementById("oldpw").value;
+	var newpw = document.getElementById("newpw").value;
+	var newpw1 = document.getElementById("newpw1").value;
+	if(oldpw != "{{ pw }}")
+	{
+		alert("原密码输入错误");
+		document.getElementById("form").reset();
+		return
+	}
+	else if(newpw != newpw1)
+	{
+		alert("两次输入的新密码不一致");
+		document.getElementById("form").reset();
+		return
+	}
+	else if(checkpw(newpw) == 0)
+	{
+		alert("新密码不符合格式规范（同时含有大小写字母和数字，且长度不小于8）");
+		document.getElementById("form").reset();
+		return
+	}
+	else
+	{
+		document.getElementById("form").submit();
+	}
+}
+</script>
+{% if flag == 0 %}
+<center><p style="margin-top:10%; margin-bottom:1%">首次登录系统，请您修改密码。密码必须由数字、小写字母、大写字母组成，且长度不小于8。</p></center>
+{% else %}
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/info">个人信息</a></li>
+			<li class="active"><a href="#">修改密码</a></li>
+			{% for item in baritems %}
+			<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+		<p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+	</div>
+	</div>
+</nav>
+{% endif %}
+<div class="login-box">
+	<div class="login-con f-l">
+	<form action="" method="post" id="form">
+		<div class="form-group">
+			<input type="password" placeholder="原密码" name="oldpw" id="oldpw"/>
+		</div>
+		<div class="form-group">
+			<input type="password" placeholder="新密码" name="newpw" id="newpw">
+		</div>
+		<div class="form-group">
+			<input type="password" placeholder="请再输入一遍入新密码" name="newpw1" id="newpw1">
+		</div>
+	</form>
+		<div class="form-group">
+			<button onClick="check();">保存</button>
+		</div>
+		{% if flag == 1 %}
+		<div class="form-group">
+			<a href="/"><button>取消</button></a>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

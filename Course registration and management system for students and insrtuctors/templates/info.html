@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block body %}
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+		<li class="active"><a href="#">个人信息</a></li>
+			<li><a href="/changepw">修改密码</a></li>
+			{% for item in baritems %}
+				<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+        <p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+    </div>
+	</div>
+</nav>
+<form method="post" action="">
+  <div class="form-group">
+    <label for="name" class="col-sm-1 control-label">姓名</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="name" id="name" value="{{ logininfo[2] }}" disabled="disabled">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ID" class="col-sm-1 control-label">ID</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="ID" id="ID" value="{{ logininfo[0] }}" disabled="disabled">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="role" class="col-sm-1 control-label">身份</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="role" id="role" value="{{ logininfo[3] }}" disabled="disabled">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-sm-1 control-label">个人描述</label>
+    <div class="col-sm-11">
+      <textarea class="form-control" rows="3" name="description" id="description">{{ logininfo[4] }}</textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">保存</button>
+    </div>
+  </div>
+</form>
+
+{% if flag == 1 %}
+	<script type="text/javascript">
+		alert("您的信息已保存");
+	</script>
+{% endif %}
+{% endblock %}

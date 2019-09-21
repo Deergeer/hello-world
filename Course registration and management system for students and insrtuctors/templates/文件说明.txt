@@ -1,0 +1,15 @@
+addgrade.html	录入成绩页面
+base.html	所有页面的基础模板
+changepw.html	修改密码页面
+chooselist.html	选课列表页面
+course.html	课程信息页面
+find.html	查询人员信息页面
+grade.html	学生成绩页面
+index.html	主页
+info.html	个人信息页面
+login.html	登录页面
+person.html	所有人员信息页面
+select.html	选课&已选课程页面
+teach.html	认领课程（任教）页面
+teached.html	已教课程页面
+teachlist.html	所有任教信息页面

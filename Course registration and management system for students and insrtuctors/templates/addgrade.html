@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/javascript">
+function deal(strid){
+   var g1 = document.getElementById(strid+'_1').value;
+   var g2 = document.getElementById(strid+'_2').value;
+   var g3 = document.getElementById(strid+'_3').value;
+   document.getElementById('stuid').value = strid;
+   document.getElementById('grade1').value = g1;
+   document.getElementById('grade2').value = g2;
+   document.getElementById('grade3').value = g3;
+   document.getElementById('form').submit();
+}
+</script>
+<div style="display:none">
+<form method="post" action="" id="form">
+<input type="text" name="stuid" id="stuid" />
+<input type="text" name="grade1" id="grade1" />
+<input type="text" name="grade2" id="grade2" />
+<input type="text" name="grade3" id="grade3" />
+</form>
+</div>
+	
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/info">个人信息</a></li>
+			<li><a href="/changepw">修改密码</a></li>
+			{% for item in baritems %}
+			{% if item == '已教课程' %}
+			<li class="active"><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% else %}
+			<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endif %}
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+        <p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+    </div>
+	</div>
+</nav>
+<center>
+<table class="table table-hover table-bordered table-striped" style="text-align:center">
+	<thead>
+		<tr><th style="text-align:center">学号</th><th style="text-align:center">姓名</th><th style="text-align:center">平时成绩</th><th style="text-align:center">半期成绩</th><th style="text-align:center">期末成绩</th><th style="text-align:center">总成绩</th><th style="text-align:center">提交</th></tr>
+	</thead>
+	<tbody>
+	{% for item in chooselist %}
+		<tr><td>{{ item[0] }}</td><td>{{ item[1] }}</td><td><input type="text" id="{{ item[0] }}_1" value="{{ item[2] }}" /></td><td><input type="text" id="{{ item[0] }}_2" value="{{ item[3] }}" /></td><td><input type="text" id="{{ item[0] }}_3" value="{{ item[4] }}" /></td><td><input type="text" id="{{ item[0] }}" value="{{ item[5] }}" disabled="disabled"/></td><td><a onclick="deal('{{ item[0] }}')">提交</a></td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<a href="/teached"><button class="btn btn-info">返回</button></a></center>
+{% endblock %}

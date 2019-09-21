@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block body %}
+
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/info">个人信息</a></li>
+			<li><a href="/changepw">修改密码</a></li>
+			{% for item in baritems %}
+			{% if item == '查询人员信息' %}
+			<li class="active"><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% else %}
+			<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endif %}
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+        <p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+    </div>
+	</div>
+</nav>
+<div style="width:40%; position:absolute; left:30%; top:8%;">
+    <form class="bs-example bs-example-form" method="post" action="">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="请输入教师或学生的ID，查询人员信息" name="userid" id="userid">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">查询</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+    </form>
+</div>
+{% if flag == 1 %}
+<br /><br /><br />
+ <div class="form-group">
+    <label for="name" class="col-sm-1 control-label">姓名</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="name" id="name" value="{{ baseinfo[2] }}" readonly="readonly">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ID" class="col-sm-1 control-label">ID</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="ID" id="ID" value="{{ baseinfo[0] }}" readonly="readonly">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="role" class="col-sm-1 control-label">身份</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="role" id="role" value="{{ baseinfo[3] }}" readonly="readonly">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-sm-1 control-label">个人描述</label>
+    <div class="col-sm-11">
+      <textarea class="form-control" rows="3" name="description" id="description" readonly="readonly">{{ baseinfo[4] }}</textarea>
+    </div>
+  </div>
+<br /><br /><br />
+  
+{% if role == '教师' %}
+<h1 align="center" style="font-size:16px">该教师的的任课情况如下表所示：</h1>
+<table id='table' class="table table-hover table-bordered table-striped" style="text-align:center">
+	<thead>
+		<tr><th style="text-align:center">课程编号</th><th style="text-align:center">课程名称</th><th style="text-align:center">学分</th><th style="text-align:center">课程描述</th><th style="text-align:center">分数占比</th></tr>
+	</thead>
+	<tbody>
+	{% for i in range(addinfo|length) %}
+		<tr><td>{{ addinfo[i][0] }}</td><td>{{ addinfo[i][1] }}</td><td>{{ addinfo[i][2] }}</td><td>{{ addinfo[i][3] }}</td><td>平时成绩{{ addinfo[i][4] }}%，半期考试{{ addinfo[i][5] }}%，期末考试{{ addinfo[i][6] }}%</td><</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% else %}
+<h1 align="center" style="font-size:16px">该学生的的选课情况如下表所示：</h1>
+<table class="table table-hover table-bordered table-striped" style="text-align:center">
+	<thead>
+		<tr><th style="text-align:center">课程名称</th><th style="text-align:center">任课教师</th><th style="text-align:center">学分</th><th style="text-align:center">课程描述</th></tr>
+	</thead>
+	<tbody>
+	{% for course in addinfo %}
+		<tr><td>{{ course[2] }}</td><td>{{ course[1] }}</td><td>{{ course[3] }}</td><td>{{ course[4] }}</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+{% endif %}
+{% endif %}
+
+{% endblock %}

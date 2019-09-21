@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block body %}
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/info">个人信息</a></li>
+			<li><a href="/changepw">修改密码</a></li>
+			{% for item in baritems %}
+			{% if item == '课程信息' %}
+			<li class="active"><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% else %}
+			<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endif %}
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+        <p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+    </div>
+	</div>
+</nav>
+<table id='table' class="table table-hover table-bordered table-striped" style="text-align:center">
+	<thead>
+		<tr><th style="text-align:center">课程编号</th><th style="text-align:center">课程名称</th><th style="text-align:center">学分</th><th style="text-align:center">课程描述</th></tr>
+	</thead>
+	<tbody>
+	{% for course in courses %}
+		<tr><td>{{ course[0] }}</td><td>{{ course[1] }}</td><td>{{ course[2] }}</td><td>{{ course[3] }}</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<br/>
+<p align="center">添加新课程：</p>
+<form method="post" action="">
+  <div class="form-group">
+    <label for="name" class="col-sm-1 control-label">课程编号</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="id" id="id" placeholder="请确保输入的编号与已有课程编号不重复">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name" class="col-sm-1 control-label">课程名称</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="name" id="name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name" class="col-sm-1 control-label">学分</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="credit" id="credit" placeholder="请输入大于0的整数">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="name" class="col-sm-1 control-label">课程描述</label>
+    <div class="col-sm-11">
+      <input type="text" class="form-control" name="description" id="description">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">添加</button>
+    </div>
+  </div>
+</form>
+
+{% if flag == 0 %}
+	<script type="text/javascript">
+		alert("插入失败，请检查插入数据的格式");
+	</script>
+{% endif %}
+{% endblock %}

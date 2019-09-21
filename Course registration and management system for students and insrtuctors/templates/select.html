@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block body %}
+<script type="text/javascript">
+function openWin(strid){
+   document.getElementById("teachid").value=strid;
+   document.getElementById("form").submit();
+}
+</script>
+<div id="win" style="display:none;">
+	<form method="post" id="form" action="">
+		<input type="text" class="form-control" name="teachid" id="teachid" value="">
+	</form>
+</div>
+
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/info">个人信息</a></li>
+			<li><a href="/changepw">修改密码</a></li>
+			{% for item in baritems %}
+			{% if item == '选课' %}
+			<li class="active"><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% else %}
+			<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endif %}
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+        <p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+    </div>
+	</div>
+</nav>
+<h1 align="center" style="font-size:16px">当前可选的课程有：</h1>
+<table class="table table-hover table-bordered table-striped" style="text-align:center">
+	<thead>
+		<tr><th style="text-align:center">课程名称</th><th style="text-align:center">任课教师</th><th style="text-align:center">学分</th><th style="text-align:center">课程描述</th><th style="text-align:center">选课人数</th><th style="text-align:center">选课</th></tr>
+	</thead>
+	<tbody>
+	{% for i in range(teachlist|length) %}
+		<tr><td>{{ teachlist[i][2] }}</td><td>{{ teachlist[i][1] }}</td><td>{{ teachlist[i][3] }}</td><td>{{ teachlist[i][4] }}</td><td>{{ nums[i] }}/30</td>
+		<td>{% if nums[i] < 30 %}<a onclick="openWin('{{ teachlist[i][0] }}')">选课</a>{% else %}已选满{% endif %}</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<br/>
+<h1 align="center" style="font-size:16px">当前已选的课程有：</h1>
+<table class="table table-hover table-bordered table-striped" style="text-align:center">
+	<thead>
+		<tr><th style="text-align:center">课程名称</th><th style="text-align:center">任课教师</th><th style="text-align:center">学分</th><th style="text-align:center">课程描述</th></tr>
+	</thead>
+	<tbody>
+	{% for course in selectlist %}
+		<tr><td>{{ course[2] }}</td><td>{{ course[1] }}</td><td>{{ course[3] }}</td><td>{{ course[4] }}</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<br/>
+
+{% if flag == 1 %}
+	<script type="text/javascript">
+		alert("选课成功");
+	</script>
+{% endif %}
+{% endblock %}

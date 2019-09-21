@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="/">教务管理系统</a>
+	</div>
+	<div>
+		<ul class="nav navbar-nav">
+			<li><a href="/info">个人信息</a></li>
+			<li><a href="/changepw">修改密码</a></li>
+			{% for item in baritems %}
+				<li><a href="{{ baritems[item] }}">{{ item }}</a></li>
+			{% endfor %}
+			<li><a href="/logout">注销</a></li>
+		</ul>
+        <p class="navbar-text navbar-left" style="color:black">{{ logininfo[0] }}&nbsp;&nbsp;{{ logininfo[2] }}</p>
+    </div>
+	</div>
+</nav>
+<div style="margin-left:1%">
+<p class="text-info">欢迎来到教务管理系统，请仔细阅读以下说明文字：</p>
+<ul>
+	<li class="text-info">1. 这里提供的服务包括成绩查询、选课等，都与您自己的利益有关，请妥善保护自己的密码，密码泄密可能会给自己造成很多的麻烦。</li>
+	<li class="text-info">2. 离开这里请点“注销”，不注销可能会给人机会侵入自己的数据。</li>
+	<li class="text-info">3. 如果您在本系统的使用过程中有任何问题和建议，可以联系管理员。</li>
+</ul>
+</div>
+
+{% endblock %}
